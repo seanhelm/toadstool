@@ -1,2 +1,2 @@
 # toadstool
-Predicts whether a mushroom is edible or poisonous based on certain characteristics
+Predicts whether a mushroom is edible or toxic using various statistical models
