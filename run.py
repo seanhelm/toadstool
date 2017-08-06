@@ -13,7 +13,7 @@ from toadstool.learn import MultiClassifier, train_percent_accuracy, feature_imp
 
 
 if __name__ == '__main__':
-    data_csv = pd.read_csv('toadstool/data/mushrooms.csv')
+    data_csv = pd.read_csv('data/mushrooms.csv')
     del data_csv['odor']
     del data_csv['gill-size']
     del data_csv['ring-type']
