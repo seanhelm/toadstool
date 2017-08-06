@@ -24,4 +24,4 @@ The performance of each model can also be quantified. `MultiClassifier.train_all
 `MultiClassifier.performances` with the total time taken to train each model, which can then be plotted
 using `plot.performance_all`:
 
-![performance_all.png](images/performance_all.png "Model vs. Performance (s)")
+![performances_all.png](images/performances_all.png "Model vs. Performance (s)")
