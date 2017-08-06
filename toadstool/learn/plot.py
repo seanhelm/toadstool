@@ -67,5 +67,4 @@ def performance_all(performances):
     plt.xticks(x_pos, list(performances.keys()), rotation=45, rotation_mode='anchor', ha='right')
     plt.xlabel("Model")
     plt.ylabel("Performance (s)")
-    plt.savefig('performance_all.pdf', bbox='tight')
     plt.show()

@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     # Visualize the performance of each model on this dataset
     performance_all(classifier.performances)
-    '''
+
     # Make prediction on new data
     predictions= classifier.predict_new(data_instance)
     print("Prediction for new mushroom data:")
@@ -57,4 +57,3 @@ if __name__ == '__main__':
 
     # Visualize relationship between classification quality and training percentage
     train_percent_accuracy(classifier)
-    '''
