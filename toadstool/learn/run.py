@@ -11,6 +11,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 
 from learn import MultiClassifier
+from plot import *
 
 
 if __name__ == '__main__':
@@ -42,3 +43,5 @@ if __name__ == '__main__':
     for model, prediction in predictions.items():
         print("%s: %s" % (model, prediction[0]))
     print()
+
+    train_percent_accuracy(classifier)
