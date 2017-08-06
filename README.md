@@ -1,7 +1,7 @@
 # toadstool
 Predicts whether a mushroom is edible or toxic using classification models
 
-## Plotting
+## Metrics
 Using the `learn` module we can visualize the performance of different classification models.
 
 For example, we can use `train_percent_accuracy` to plot the relationship between each model's
