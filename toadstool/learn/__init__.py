@@ -1,4 +1,4 @@
-from .preprocess import preprocess
-from .learn import train, test
+from preprocess import *
+from learn import *
 
-__all__ = ['preprocess', 'train', 'test']
+__all__ = ['preprocess', 'train', 'test', 'predict_new']

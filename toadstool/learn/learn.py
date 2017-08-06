@@ -1,35 +1,58 @@
 import pandas as pd
 
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.naive_bayes import GaussianNB
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-from preprocess import preprocess
+__all__ = 'MultiClassifier'
 
-classifiers = {
-    'Random Forest': RandomForestClassifier(),
-    'Decision Tree Classifier': DecisionTreeClassifier(),
-    'Logistic Regression': LogisticRegression(),
-    'Gaussian Naive Bayes': GaussianNB()
-}
 
-def train(data, models):
-    '''Train the dataset on each statistical model'''
-    for key, model in models.items():
-        model.fit(data['train_X'], data['train_y'])
-        
-def test(data, models):
-    '''Test the statistical models on the test data and output its accuracy'''
-    for key, model in models.items():
-        predict_y = model.predict(data['test_X'])
+class MultiClassifier:
+    '''Uses multiple statistical classification models to classify data'''
+    def __init__(self, data, models):
+        self.data = data
+        self.models = models
+        self.encoders = {}
+        self.processed = {}
 
-        print("%s: %.2f" % (key, accuracy_score(data['test_y'], predict_y)))
+    def preprocess(self):
+        '''Preprocesses the dataset for training'''
+        for column in self.data.columns:
+            # Encode all labels to value between 0..n-1
+            self.encoders[column] = preprocessing.LabelEncoder()
+            self.data[column] = self.encoders[column].fit_transform(self.data[column])
+    
+        # Split data into train and test
+        data_X, data_y = self.data.iloc[:, 1:], self.data.iloc[:, 0]
+        split_data = train_test_split(data_X, data_y)
+        self.processed['train_X'] = split_data[0]
+        self.processed['test_X'] = split_data[1]
+        self.processed['train_y'] = split_data[2]
+        self.processed['test_y'] = split_data[3]
 
-if __name__ == '__main__':
-    data_csv = pd.read_csv('../data/mushrooms.csv')
-    data, encoder = preprocess(data_csv)
+    def train_all(self):
+        '''Train the dataset on each statistical model'''
+        for model in self.models.values():
+            model.fit(self.processed['train_X'], self.processed['train_y'])
 
-    train(data, classifiers)
-    test(data, classifiers)
+    def test_all(self):
+        '''Test the statistical models on the test data and output its accuracy'''
+        accuracy = {}
+
+        for key, model in self.models.items():
+            predict_y = model.predict(self.processed['test_X'])
+            accuracy[key] = accuracy_score(self.processed['test_y'], predict_y)
+
+        return accuracy
+
+    def predict_new(self, item):
+        '''Classify new item based on trained data'''
+        for column in item.columns:
+            item[column] = self.encoders[column].transform(item[column])
+    
+        # Predict using each model
+        predictions = {}
+        for key, model in self.models.items():
+            predictions[key] = model.predict(item)
+
+        return predictions
