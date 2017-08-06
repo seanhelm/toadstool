@@ -4,18 +4,20 @@ Demonstrate capabilities of learning library
 from __future__ import print_function
 
 import pandas as pd
-
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 
-from learn import MultiClassifier
-from plot import *
+from toadstool.learn import MultiClassifier, train_percent_accuracy, feature_importances
 
 
 if __name__ == '__main__':
-    data_csv = pd.read_csv('../data/mushrooms.csv')
+    data_csv = pd.read_csv('toadstool/data/mushrooms.csv')
+    del data_csv['odor']
+    del data_csv['gill-size']
+    del data_csv['ring-type']
+    del data_csv['gill-color']
 
     models = {
         'Random Forest': RandomForestClassifier(),

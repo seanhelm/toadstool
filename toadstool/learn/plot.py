@@ -4,9 +4,8 @@ Plot classification models in different ways to analyze quality
 import numpy as np
 import matplotlib.pyplot as plt
 
-from learn import MultiClassifier
+from .learn import MultiClassifier
 
-__all__ = ['train_percent_accuracy', 'feature_importances']
 
 def train_percent_accuracy(multi_classifier, step=0.01):
     """
