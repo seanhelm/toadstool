@@ -9,15 +9,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 
-from toadstool.learn import MultiClassifier, train_percent_accuracy, feature_importances
+from toadstool.learn import *
 
 
 if __name__ == '__main__':
     data_csv = pd.read_csv('data/mushrooms.csv')
-    del data_csv['odor']
-    del data_csv['gill-size']
-    del data_csv['ring-type']
-    del data_csv['gill-color']
 
     models = {
         'Random Forest': RandomForestClassifier(),
@@ -26,7 +22,7 @@ if __name__ == '__main__':
         'Gaussian Naive Bayes': GaussianNB()
     }
 
-    # Remove label column for predict_new
+    # Remove label column for predict_new (not new but done to show functionality)
     data_instance = data_csv.loc[[5000]]
     del data_instance['class']
 
@@ -44,6 +40,9 @@ if __name__ == '__main__':
         print("%s: %.3f" % (model, result))
     print()
 
+    # Visualize the performance of each model on this dataset
+    performance_all(classifier.performances)
+    '''
     # Make prediction on new data
     predictions= classifier.predict_new(data_instance)
     print("Prediction for new mushroom data:")
@@ -58,3 +57,4 @@ if __name__ == '__main__':
 
     # Visualize relationship between classification quality and training percentage
     train_percent_accuracy(classifier)
+    '''

@@ -2,7 +2,7 @@
 Supervised learning classification
 """
 import pandas as pd
-
+from timeit import default_timer as timer
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -20,6 +20,7 @@ class MultiClassifier:
         self.models = models
         self.encoders = {}
         self.processed = {}
+        self.performances = {}
 
     def preprocess(self, size=0.25):
         """
@@ -46,8 +47,11 @@ class MultiClassifier:
         """
         Train the dataset on each statistical model
         """
-        for model in self.models.values():
+        for key, model in self.models.items():
+            start = timer()
             model.fit(self.processed['train_X'], self.processed['train_y'])
+            end = timer()
+            self.performances[key] = end - start
 
     def test_all(self):
         """

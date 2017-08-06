@@ -2,7 +2,7 @@
 Predicts whether a mushroom is edible or toxic using classification models
 
 ## Plotting
-Using the `plot` module we can visualize the performance of different classification models.
+Using the `learn` module we can visualize the performance of different classification models.
 
 For example, we can use `plot.train_percent_accuracy` to plot the relationship between each model's
 dataset training percentage and its accuracy score.
@@ -19,3 +19,9 @@ We can use `plot.feature_importances` to visualize the importance of each featur
 the Random Forest Classifier:
 
 ![feature_importance.png](images/feature_importance.png "Features vs. Importance in Random Forest")
+
+The performance of each model can also be quantified. `MultiClassifier.train_all` populates the dictionary
+`MultiClassifier.performances` with the total time taken to train each model, which can then be plotted
+using `plot.performance_all`:
+
+![performance_all.png](images/performance_all.png "Model vs. Performance (s)")

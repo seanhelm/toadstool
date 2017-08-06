@@ -51,3 +51,21 @@ def feature_importances(feature_importances, features):
     plt.xlabel("Features")
     plt.ylabel("Importance")
     plt.show()
+
+def performance_all(performances):
+    """
+    Plot each model's performance when training on the dataset
+
+    :param performances: Dictionary with performance in seconds per model
+    """
+    plt.figure()
+
+    x_pos = np.arange(len(performances))
+
+    plt.bar(x_pos, list(performances.values()), align='center', width=0.4)
+    plt.gcf().subplots_adjust(bottom=0.35)
+    plt.xticks(x_pos, list(performances.keys()), rotation=45, rotation_mode='anchor', ha='right')
+    plt.xlabel("Model")
+    plt.ylabel("Performance (s)")
+    plt.savefig('performance_all.pdf', bbox='tight')
+    plt.show()
