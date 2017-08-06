@@ -1,3 +1,6 @@
+"""
+Demonstrate capabilities of learning library
+"""
 from __future__ import print_function
 
 import pandas as pd
@@ -27,7 +30,15 @@ if __name__ == '__main__':
     
     classifier.preprocess()
     classifier.train_all()
-    print(classifier.test_all())
 
-    prediction = classifier.predict_new(data_instance)
-    print(prediction)
+    test_results = classifier.test_all()
+    print("Accuracy score for all models:")
+    for model, result in test_results.items():
+        print("%s: %.3f" % (model, result))
+    print()
+
+    predictions= classifier.predict_new(data_instance)
+    print("Prediction for new mushroom data:")
+    for model, prediction in predictions.items():
+        print("%s: %s" % (model, prediction[0]))
+    print()

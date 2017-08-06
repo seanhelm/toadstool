@@ -1,6 +1,6 @@
-""""
+"""
 Supervised learning classification
-""""
+"""
 import pandas as pd
 
 from sklearn import preprocessing
@@ -23,7 +23,7 @@ class MultiClassifier:
         self.encoders = {}
         self.processed = {}
 
-    def preprocess(self):
+    def preprocess(self, size=0.25):
         """
         Preprocesses the dataset for training
         """
@@ -34,7 +34,10 @@ class MultiClassifier:
     
         # Split data into train and test
         data_X, data_y = self.data.iloc[:, 1:], self.data.iloc[:, 0]
-        split_data = train_test_split(data_X, data_y)
+        split_data = train_test_split(data_X, data_y, test_size=size)
+
+        # Save y column name
+        self.y_column = data_y.name
         
         self.processed['train_X'] = split_data[0]
         self.processed['test_X'] = split_data[1]
@@ -75,6 +78,8 @@ class MultiClassifier:
         # Predict using each model
         predictions = {}
         for key, model in self.models.items():
-            predictions[key] = model.predict(item)
+            prediction = model.predict(item)
+            # Decode back to actual label
+            predictions[key] = self.encoders[self.y_column].inverse_transform(prediction)
 
         return predictions
