@@ -4,6 +4,7 @@ Demonstrate capabilities of learning library
 from __future__ import print_function
 
 import pandas as pd
+from sklearn import metrics
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -34,20 +35,22 @@ if __name__ == '__main__':
     classifier.train_all()
 
     # Display the accuracy scores for each model
-    test_results = classifier.test_all()
+    classifier.test_all()
     print("Accuracy score for all models:")
-    for model, result in test_results.items():
-        print("%s: %.3f" % (model, result))
+    for i in range(len(classifier.accuracies)):
+        print("%s: %.3f" % (classifier.names[i], classifier.accuracies[i]))
     print()
 
+    print(metrics.roc_curve(classifier.processed['test_y'], classifier.predictions[2]))
+
     # Visualize the performance of each model on this dataset
-    performance_all(classifier.performances)
+    performance_all(classifier.performances, classifier.names)
 
     # Make prediction on new data
-    predictions= classifier.predict_new(data_instance)
+    predictions = classifier.predict_new(data_instance)
     print("Prediction for new mushroom data:")
-    for model, prediction in predictions.items():
-        print("%s: %s" % (model, prediction[0]))
+    for i in range(len(predictions)):
+        print("%s: %s" % (classifier.names[i], predictions[i][0]))
     print()
 
     # Visualize feature importance

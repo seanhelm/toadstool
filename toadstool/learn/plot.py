@@ -19,12 +19,12 @@ def train_percent_accuracy(multi_classifier, step=0.01):
     for i in np.arange(0.01, 1, step):
         multi_classifier.preprocess(1.0-i)
         multi_classifier.train_all()
-        test_results = multi_classifier.test_all()
+        multi_classifier.test_all()
 
         # Plot each model's accuracy score for this training percentage
-        for model, result in test_results.items():
-            plots[model][0].append(i)
-            plots[model][1].append(result)
+        for j in range(len(multi_classifier.accuracies)):
+            plots[multi_classifier.names[j]][0].append(i)
+            plots[multi_classifier.names[j]][1].append(multi_classifier.accuracies[j])
 
     plt.figure()
     for model, results in plots.items():
@@ -52,7 +52,7 @@ def feature_importances(feature_importances, features):
     plt.ylabel("Importance")
     plt.show()
 
-def performance_all(performances):
+def performance_all(performances, model_names):
     """
     Plot each model's performance when training on the dataset
 
@@ -62,9 +62,9 @@ def performance_all(performances):
 
     x_pos = np.arange(len(performances))
 
-    plt.bar(x_pos, list(performances.values()), align='center', width=0.4)
+    plt.bar(x_pos, performances, align='center', width=0.4)
     plt.gcf().subplots_adjust(bottom=0.35)
-    plt.xticks(x_pos, list(performances.keys()), rotation=45, rotation_mode='anchor', ha='right')
+    plt.xticks(x_pos, model_names, rotation=45, rotation_mode='anchor', ha='right')
     plt.xlabel("Model")
     plt.ylabel("Performance (s)")
     plt.show()

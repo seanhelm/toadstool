@@ -18,14 +18,15 @@ class MultiClassifier:
     def __init__(self, data, models):
         self.data = data
         self.models = models
-        self.encoders = {}
-        self.processed = {}
-        self.performances = {}
+        self.names = list(models.keys())        
 
     def preprocess(self, size=0.25):
         """
         Preprocesses the dataset for training
         """
+        self.encoders = {}
+        self.processed = {}
+
         for column in self.data.columns:
             # Encode all labels to value between 0..n-1
             self.encoders[column] = preprocessing.LabelEncoder()
@@ -47,11 +48,13 @@ class MultiClassifier:
         """
         Train the dataset on each statistical model
         """
+        self.performances = []
+
         for key, model in self.models.items():
             start = timer()
             model.fit(self.processed['train_X'], self.processed['train_y'])
             end = timer()
-            self.performances[key] = end - start
+            self.performances.append(end - start)
 
     def test_all(self):
         """
@@ -59,13 +62,14 @@ class MultiClassifier:
         
         :returns: Accuracy score for each model (0.0-1.0)
         """
-        accuracy = {}
+        self.predictions = []
+        self.accuracies = []
 
         for key, model in self.models.items():
             predict_y = model.predict(self.processed['test_X'])
-            accuracy[key] = accuracy_score(self.processed['test_y'], predict_y)
-
-        return accuracy
+            self.predictions.append(predict_y)
+            accuracy = accuracy_score(self.processed['test_y'], predict_y)
+            self.accuracies.append(accuracy)
 
     def predict_new(self, item):
         """
@@ -78,10 +82,10 @@ class MultiClassifier:
             item[column] = self.encoders[column].transform(item[column])
     
         # Predict using each model
-        predictions = {}
+        predictions = []
         for key, model in self.models.items():
             prediction = model.predict(item)
             # Decode back to actual label
-            predictions[key] = self.encoders[self.y_column].inverse_transform(prediction)
+            predictions.append(self.encoders[self.y_column].inverse_transform(prediction))
 
         return predictions
