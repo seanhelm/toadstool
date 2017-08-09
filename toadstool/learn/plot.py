@@ -30,7 +30,7 @@ def train_percent_accuracy(multi_classifier, step=0.01):
     for model, results in plots.items():
         plt.plot(results[0], results[1], label=model)
     
-    plt.xlabel("Training %")
+    plt.xlabel("Dataset Training %")
     plt.ylabel("Accuracy score")
     plt.legend()
     plt.show()
