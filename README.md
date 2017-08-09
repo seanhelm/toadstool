@@ -1,7 +1,7 @@
 # toadstool
-Predicts whether a mushroom is edible or toxic using classification models
+Predicts whether a mushroom is edible or toxic using classification models.
 
-For a more in depth analysis, review the [Jupyter Notebook](toadstool.ipynb)
+For a more in depth analysis, review the [Jupyter Notebook](toadstool.ipynb).
 
 ## Metrics
 Using the `learn` module we can visualize the performance of different classification models.
